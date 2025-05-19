@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ScheduleView">
+        <attr name="event_text_size" format="integer" />
+        <attr name="event_text_color" format="color" />
+        <attr name="time_text_size" format="integer" />
+        <attr name="time_text_color" format="color" />
+        <attr name="is_collapsing" format="boolean" />
+    </declare-styleable>
+</resources>
