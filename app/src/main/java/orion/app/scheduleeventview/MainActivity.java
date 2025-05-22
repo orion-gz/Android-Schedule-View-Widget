@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 new ScheduleEventItem(2, "인공지능 개론", LocalTime.of(12, 30), LocalTime.of(14, 30), Color.parseColor("#1e73be")),
                 new ScheduleEventItem(3, "AI 수학", LocalTime.of(15, 0), LocalTime.of(17, 0), Color.parseColor("#eeee22")),
                 new ScheduleEventItem(4, "데이터 과학", LocalTime.of(17, 30), LocalTime.of(19, 30), Color.parseColor("#8224e3")),
-                new ScheduleEventItem(5, "디지털 마케팅", LocalTime.of(19, 0), LocalTime.of(21, 0), Color.parseColor("#e12797"))
+                new ScheduleEventItem(5, "디지털 마케팅", LocalTime.of(23, 50), LocalTime.of(23, 59), Color.parseColor("#e12797"))
         );
 
         ScheduleView scheduleView = findViewById(R.id.schedule_view);

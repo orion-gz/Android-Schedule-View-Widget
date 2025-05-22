@@ -86,7 +86,15 @@ public class ScheduleView extends View {
         scheduleEventItems.add(eventItem);
         invalidate();
     }
+
+    public void clearScheduleEventItems() {
+        this.itemRects.clear();
+        this.scheduleEventItems.clear();
+        invalidate();
+    }
+
     public void setScheduleEventItems(List<ScheduleEventItem> scheduleEventItems) {
+        clearScheduleEventItems();
         this.scheduleEventItems = new ArrayList<>(scheduleEventItems);
         invalidate();
     }
@@ -121,6 +129,10 @@ public class ScheduleView extends View {
         return super.onTouchEvent(event);
     }
 
+    public float getEventTopY(LocalTime time) {
+        return timeToY(time);
+    }
+
     private float timeToY(LocalTime time) {
         Duration duration = Duration.between(startTime, time);
         return duration.toMinutes() * hourHeight / 60F;
@@ -153,9 +165,18 @@ public class ScheduleView extends View {
             float topY = timeToY(eventItem.startTime);
             float bottomY = timeToY(eventItem.endTime);
 
-            if (topY < topLimit || bottomY > bottomLimit) continue;
+            if (topY < topLimit || bottomY > bottomLimit) {
+                RectF rect = new RectF(labelWidth + 25, bottomLimit - 75, getWidth() - 20, bottomLimit);
+                itemRects.add(rect);
+                eventPaint.setColor(eventItem.getColor());
 
-            RectF rect = new RectF(labelWidth + 25, topY + 40, getWidth() - 20, bottomY + 40);
+                canvas.drawRoundRect(rect, 20, 20, eventPaint);
+                canvas.drawText(eventItem.name, rect.left + 40, rect.top + 55, textPaint);
+                continue;
+            }
+
+            RectF rect = new RectF(labelWidth + 25, topY + 35, getWidth() - 20, bottomY + 35);
+
             itemRects.add(rect);
             eventPaint.setColor(eventItem.getColor());
 
