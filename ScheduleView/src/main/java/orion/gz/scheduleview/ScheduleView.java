@@ -29,6 +29,11 @@ public class ScheduleView extends View {
     private Paint eventPaint;
     private Paint textPaint;
     private boolean isCollapsing = false;
+    private boolean showDuration = false;
+    private int eventTextSize = 40;
+    private int eventTextColor = Color.BLACK;
+    private int timeTextSize = 36;
+    private int timeTextColor = Color.BLACK;
     private int defaultColor = Color.parseColor("#BBD5EB");
     private int hourHeight = 200;
     private int labelWidth = 200;
@@ -60,10 +65,11 @@ public class ScheduleView extends View {
 
     private void init(AttributeSet attrs) {
         TypedArray attr = getContext().obtainStyledAttributes(attrs, R.styleable.ScheduleView);
-        int eventTextSize = attr.getInt(R.styleable.ScheduleView_event_text_size, 40);
-        int eventTextColor = attr.getColor(R.styleable.ScheduleView_event_text_color, Color.BLACK);
-        int timeTextSize = attr.getInt(R.styleable.ScheduleView_time_text_size, 36);
-        int timeTextColor = attr.getColor(R.styleable.ScheduleView_time_text_color, Color.BLACK);
+        eventTextSize = attr.getInt(R.styleable.ScheduleView_event_text_size, 40);
+        eventTextColor = attr.getColor(R.styleable.ScheduleView_event_text_color, Color.BLACK);
+        timeTextSize = attr.getInt(R.styleable.ScheduleView_time_text_size, 36);
+        timeTextColor = attr.getColor(R.styleable.ScheduleView_time_text_color, Color.BLACK);
+        showDuration = attr.getBoolean(R.styleable.ScheduleView_show_duration, false);
         isCollapsing = attr.getBoolean(R.styleable.ScheduleView_is_collapsing, false);
 
         timePaint = new Paint();
@@ -103,7 +109,67 @@ public class ScheduleView extends View {
         this.touchListener = touchListener;
     }
 
-    public void setTimeFormat(int clockFormat) {
+    public boolean isCollapsing() {
+        return isCollapsing;
+    }
+
+    public void setCollapsing(boolean collapsing) {
+        isCollapsing = collapsing;
+    }
+
+    public boolean isShowDuration() {
+        return showDuration;
+    }
+
+    public void setShowDuration(boolean showDuration) {
+        this.showDuration = showDuration;
+    }
+
+    public int getEventTextSize() {
+        return eventTextSize;
+    }
+
+    public void setEventTextSize(int eventTextSize) {
+        this.eventTextSize = eventTextSize;
+    }
+
+    public int getEventTextColor() {
+        return eventTextColor;
+    }
+
+    public void setEventTextColor(int eventTextColor) {
+        this.eventTextColor = eventTextColor;
+    }
+
+    public int getTimeTextSize() {
+        return timeTextSize;
+    }
+
+    public void setTimeTextSize(int timeTextSize) {
+        this.timeTextSize = timeTextSize;
+    }
+
+    public int getTimeTextColor() {
+        return timeTextColor;
+    }
+
+    public void setTimeTextColor(int timeTextColor) {
+        this.timeTextColor = timeTextColor;
+    }
+
+    public int getDefaultColor() {
+        return defaultColor;
+    }
+
+    public void setDefaultColor(int defaultColor) {
+        this.defaultColor = defaultColor;
+    }
+
+    public int getClockFormat() {
+        return clockFormat;
+    }
+
+    public void setClockFormat(int clockFormat) {
         this.clockFormat = clockFormat;
     }
 
@@ -182,6 +248,19 @@ public class ScheduleView extends View {
 
             canvas.drawRoundRect(rect, 20, 20, eventPaint);
             canvas.drawText(eventItem.name, rect.left + 40, rect.top + 70, textPaint);
+
+            if (showDuration) {
+                Duration duration = Duration.between(eventItem.startTime, eventItem.endTime);
+                long hours = duration.toHours();
+                long minutes = duration.toMinutes() - hours * 60;
+                String durationString = String.valueOf(hours) + "시간 ";
+                if (minutes > 0) {
+                    durationString += String.valueOf(minutes) + "분";
+                    canvas.drawText(durationString, rect.right - 200, rect.bottom - 40, textPaint);
+                }
+                else
+                    canvas.drawText(durationString, rect.right - 140, rect.bottom - 40, textPaint);
+            }
         }
     }
 

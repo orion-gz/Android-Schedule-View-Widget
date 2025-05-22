@@ -16,7 +16,8 @@
         <orion.gz.scheduleview.ScheduleView
             android:id="@+id/schedule_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:show_duration="true"/>
 
     </ScrollView>
 
