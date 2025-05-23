@@ -260,7 +260,7 @@ public class ScheduleView extends View {
 
                     if (hours > 0 && minutes > 0) {
                         durationString += String.valueOf(hours) + "시간 " + String.valueOf(minutes) + "분";
-                        canvas.drawText(durationString, rect.right - 185, rect.bottom - 40, textPaint);
+                        canvas.drawText(durationString, rect.right - 215, rect.bottom - 40, textPaint);
                     }
                     if (minutes > 0 && hours == 0) {
                         durationString += String.valueOf(minutes) + "분";
