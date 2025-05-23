@@ -241,25 +241,36 @@ public class ScheduleView extends View {
                 continue;
             }
 
+            Log.d("Schedule", eventItem.getName() + " topY: " + topY + ", bottomY: " + bottomY);
+
             RectF rect = new RectF(labelWidth + 25, topY + 35, getWidth() - 20, bottomY + 35);
 
             itemRects.add(rect);
             eventPaint.setColor(eventItem.getColor());
 
             canvas.drawRoundRect(rect, 20, 20, eventPaint);
-            canvas.drawText(eventItem.name, rect.left + 40, rect.top + 70, textPaint);
 
-            if (showDuration) {
-                Duration duration = Duration.between(eventItem.startTime, eventItem.endTime);
-                long hours = duration.toHours();
-                long minutes = duration.toMinutes() - hours * 60;
-                String durationString = String.valueOf(hours) + "시간 ";
-                if (minutes > 0) {
-                    durationString += String.valueOf(minutes) + "분";
-                    canvas.drawText(durationString, rect.right - 200, rect.bottom - 40, textPaint);
+            if (bottomY - topY >= 100) {
+                canvas.drawText(eventItem.name, rect.left + 40, rect.top + 70, textPaint);
+                if (showDuration) {
+                    Duration duration = Duration.between(eventItem.startTime, eventItem.endTime);
+                    long hours = duration.toHours();
+                    long minutes = duration.toMinutes() - hours * 60;
+                    String durationString = "";
+
+                    if (hours > 0 && minutes > 0) {
+                        durationString += String.valueOf(hours) + "시간 " + String.valueOf(minutes) + "분";
+                        canvas.drawText(durationString, rect.right - 185, rect.bottom - 40, textPaint);
+                    }
+                    if (minutes > 0 && hours == 0) {
+                        durationString += String.valueOf(minutes) + "분";
+                        canvas.drawText(durationString, rect.right - 135, rect.bottom - 40, textPaint);
+                    }
+                    else if (hours > 0 && minutes == 0) {
+                        durationString += String.valueOf(hours) + "시간";
+                        canvas.drawText(durationString, rect.right - 135, rect.bottom - 40, textPaint);
+                    }
                 }
-                else
-                    canvas.drawText(durationString, rect.right - 140, rect.bottom - 40, textPaint);
             }
         }
     }
